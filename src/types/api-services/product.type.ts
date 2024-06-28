@@ -39,8 +39,9 @@ export interface Product {
 }
 
 export interface Category {
-  id: number;
+  slug: string;
   name: string;
+  url: string;
 }
 
 export interface ProductsResponse {

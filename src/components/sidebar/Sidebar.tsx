@@ -19,7 +19,7 @@ const SidebarLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   // -> HANDLE MENU CLICK
   const handleMenuItemClick: MenuProps["onClick"] = ({ key }) => {
-    navigate(`/${key}`);
+    navigate(`${key}`);
   };
 
   return (
@@ -74,7 +74,7 @@ const SidebarLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
             }}
           >
             {/* MAIN CONTENT */}
-            {children}
+            <main>{children}</main>
           </div>
         </Content>
       </Layout>

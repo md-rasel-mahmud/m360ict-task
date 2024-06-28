@@ -1,15 +1,19 @@
 import { FC, useState } from "react";
-import { Table } from "antd";
+import { Button, Flex, Table, Tooltip } from "antd";
 import { TableProps } from "antd/es/table";
-import productService from "../api/services/product/product.service";
 import { Product } from "../api/services/product/product.type";
+import { EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import productService from "../api/services/product/product.service";
 
 const ProductList: FC = () => {
-  // ================= LOCAL STATE =================
-  // -> LIMIT
+  // ================= PACKAGE HOOKS =================
+  // -> LOCAL STATES
   const [limit, setLimit] = useState<number>(10);
-  // -> SKIP
   const [skip, setSkip] = useState<number>(0);
+
+  // -> GET NAVIGATE FROM HOOK
+  const navigate = useNavigate();
 
   // ================= RTK GET QUERY =================
   // @GET /products?limit=10&skip=0
@@ -97,6 +101,34 @@ const ProductList: FC = () => {
       title: "Minimum Order Quantity",
       dataIndex: "minimumOrderQuantity",
       key: "minimumOrderQuantity",
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      fixed: "right",
+      render: ({ id }) => (
+        <Flex gap=".1rem" vertical>
+          <Tooltip title="View Product">
+            <Button
+              type="primary"
+              htmlType="button"
+              onClick={() => navigate(`/product/view/${id}`)}
+            >
+              <EyeOutlined />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Edit Product">
+            <Button
+              type="default"
+              htmlType="button"
+              onClick={() => navigate(`/product/edit/${id}`)}
+            >
+              <EditOutlined />
+            </Button>
+          </Tooltip>
+        </Flex>
+      ),
     },
   ];
 

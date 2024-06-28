@@ -3,11 +3,9 @@ import SidebarLayout from "./components/sidebar/Sidebar";
 
 const App = () => {
   return (
-    <div>
-      <SidebarLayout>
-        <Outlet />
-      </SidebarLayout>
-    </div>
+    <SidebarLayout>
+      <Outlet />
+    </SidebarLayout>
   );
 };
 
