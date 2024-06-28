@@ -1,14 +1,24 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Table } from "antd";
 import { TableProps } from "antd/es/table";
 import productService from "../api/services/product/product.service";
 import { Product } from "../api/services/product/product.type";
 
 const ProductList: FC = () => {
-  const { data } = productService.useGetProductsQuery({ limit: 10, skip: 0 });
+  // ================= LOCAL STATE =================
+  // -> LIMIT
+  const [limit, setLimit] = useState<number>(10);
+  // -> SKIP
+  const [skip, setSkip] = useState<number>(0);
 
-  console.log(data);
+  // ================= RTK GET QUERY =================
+  // @GET /products?limit=10&skip=0
+  const { data, isLoading, isFetching } = productService.useGetProductsQuery({
+    limit,
+    skip,
+  });
 
+  // -> TABLE COLUMNS
   const columns: TableProps<Product>["columns"] = [
     {
       title: "Title",
@@ -94,6 +104,16 @@ const ProductList: FC = () => {
     <div>
       <Table
         scroll={{ x: "100vw" }}
+        pagination={{
+          current: skip / limit + 1,
+          pageSize: limit,
+          total: data?.total,
+          onChange: (page, pageSize) => {
+            setSkip((page - 1) * pageSize);
+            setLimit(pageSize);
+          },
+        }}
+        loading={isLoading || isFetching}
         columns={columns}
         dataSource={data?.products}
       />
