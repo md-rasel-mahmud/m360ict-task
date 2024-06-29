@@ -1,9 +1,9 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import productService from "../api/services/product/product.service";
 import FormComponent from "../components/form/FormComponent";
 import { InputFieldsType } from "../types/components/InputFieldTypes";
-import { Col, Row, Skeleton, message } from "antd";
+import { Breadcrumb, Col, Row, Skeleton, message } from "antd";
 
 const ProductEdit: React.FC = () => {
   // ================= PACKAGE HOOKS =================
@@ -160,8 +160,22 @@ const ProductEdit: React.FC = () => {
 
   return (
     <>
+      {/* Breadcrumb for navigating product page */}
+      <Breadcrumb
+        style={{ margin: "16px 0" }}
+        items={[
+          {
+            title: <Link to="/">Product</Link>,
+          },
+          {
+            title: product?.title,
+          },
+        ]}
+      />
+
       {productLoading || categoriesLoading ? (
         <>
+          {/* LOADING SKELETON  */}
           <Row gutter={5}>
             {Array(formData.length)
               .fill({})
@@ -173,6 +187,7 @@ const ProductEdit: React.FC = () => {
           </Row>
         </>
       ) : (
+        //  RENDER FORM COMPONENT
         <FormComponent
           isLoading={isLoading}
           title="Edit Product"
