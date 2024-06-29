@@ -1,4 +1,4 @@
-import { TableProps } from "antd";
+import { Rate, TableProps, Tag } from "antd";
 import { Product } from "../../types/api-services/product.type";
 import ActionCell from "../../components/table/ActionCell";
 
@@ -13,77 +13,101 @@ const useProductTableColumns = ({ navigate }: UseProductTableColumnsProps) => {
       title: "Title",
       dataIndex: "title",
       key: "title",
+      width: 150,
     },
     {
       title: "Category",
       dataIndex: "category",
       key: "category",
+      width: 100,
+      render: (value) => (
+        <Tag style={{ textTransform: "capitalize" }}>{value}</Tag>
+      ),
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      width: 100,
+      render: (value) => <b>${value}</b>,
     },
     {
-      title: "Discount Percentage",
+      title: "Discount",
       dataIndex: "discountPercentage",
       key: "discountPercentage",
+      width: 100,
+      render: (value) => <>{value}%</>,
     },
     {
       title: "Rating",
       dataIndex: "rating",
       key: "rating",
+      width: 150,
+      render: (value) => <Rate disabled value={value} />,
     },
     {
       title: "Stock",
       dataIndex: "stock",
       key: "stock",
+      width: 120,
+      render: (value, row) => (
+        <Tag color={row.availabilityStatus === "In Stock" ? "green" : "red"}>
+          {row.availabilityStatus} ({value})
+        </Tag>
+      ),
     },
     {
       title: "Tags",
       dataIndex: "tags",
       key: "tags",
-      render: (tags: string[]) => tags.join(", "),
+      width: 100,
+      render: (value: string[]) =>
+        value.map((tag) => (
+          <Tag key={tag} style={{ margin: 1 }}>
+            {tag.toUpperCase()}
+          </Tag>
+        )),
     },
     {
       title: "Brand",
       dataIndex: "brand",
       key: "brand",
+      width: 100,
     },
     {
       title: "SKU",
       dataIndex: "sku",
       key: "sku",
+      width: 110,
     },
     {
       title: "Weight",
       dataIndex: "weight",
       key: "weight",
+      width: 100,
     },
     {
       title: "Dimensions",
       dataIndex: "dimensions",
+      width: 150,
       key: "dimensions",
-      render: (dimensions) =>
-        `${dimensions?.width} x ${dimensions?.height} x ${dimensions?.depth}`,
+      render: (value) => `${value?.width} x ${value?.height} x ${value?.depth}`,
     },
     {
-      title: "Warranty Information",
+      title: "Warranty",
       dataIndex: "warrantyInformation",
       key: "warrantyInformation",
+      width: 110,
     },
     {
-      title: "Shipping Information",
+      title: "Shipping",
       dataIndex: "shippingInformation",
       key: "shippingInformation",
+      width: 100,
     },
     {
-      title: "Availability Status",
-      dataIndex: "availabilityStatus",
-      key: "availabilityStatus",
-    },
-    {
-      title: "Minimum Order Quantity",
+      title: "Min QTY",
+      width: 100,
       dataIndex: "minimumOrderQuantity",
       key: "minimumOrderQuantity",
     },
@@ -91,6 +115,7 @@ const useProductTableColumns = ({ navigate }: UseProductTableColumnsProps) => {
       title: "Actions",
       key: "actions",
       fixed: "right",
+      width: 100,
       render: ({ id }) => (
         <ActionCell
           edit={{

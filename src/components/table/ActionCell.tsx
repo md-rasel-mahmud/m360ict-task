@@ -15,7 +15,7 @@ interface ActionCellPropsType {
 
 const ActionCell: FC<ActionCellPropsType> = ({ edit, view }) => {
   return (
-    <Flex gap=".1rem" vertical>
+    <Flex gap={5} vertical>
       <Tooltip title={view.tooltip}>
         <Button type="primary" htmlType="button" onClick={view.onClick}>
           <EyeOutlined />
