@@ -17,6 +17,7 @@ import {
 } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
+import Title from "antd/es/typography/Title";
 
 /**
  * Props for the FormComponent component.
@@ -136,7 +137,7 @@ const FormComponent: FC<InputFieldsPropType> = ({
       case "textarea":
         return (
           <Col {...colProps}>
-            <Form.Item name={input.name[0]} label={input.label}>
+            <Form.Item name={input.name} label={input.label}>
               <TextArea disabled={input.disabled} />
             </Form.Item>
           </Col>
@@ -145,7 +146,7 @@ const FormComponent: FC<InputFieldsPropType> = ({
       case "select":
         return (
           <Col {...colProps}>
-            <Form.Item name={input.name[0]} label={input.label}>
+            <Form.Item name={input.name} label={input.label}>
               <Select
                 options={input.options}
                 loading={input.optionLoading}
@@ -159,7 +160,8 @@ const FormComponent: FC<InputFieldsPropType> = ({
         return (
           <Col key={index} xs={24}>
             <Divider />
-            <Form.Item label={input.label}>
+            <Title level={5}>{input.label}</Title>
+            <Form.Item>
               {input.name && (
                 <Form.List name={input.name[0]}>
                   {(fields, { add, remove }) => (
