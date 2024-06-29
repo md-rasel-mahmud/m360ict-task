@@ -1,3 +1,5 @@
+import { MessageInstance } from "antd/es/message/interface";
+
 export interface Product {
   id: number;
   title: string;
@@ -57,7 +59,8 @@ export interface GetProductsParams {
   skip: number;
 }
 
-export interface UpdateProductParams {
-  id: number;
+export interface UpdateProductParams extends GetProductsParams {
   data: Partial<Product>;
+  toast: MessageInstance;
+  navigate: (path: string) => void;
 }

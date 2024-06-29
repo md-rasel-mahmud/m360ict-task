@@ -1,16 +1,26 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Button, Flex, Table, Tooltip } from "antd";
 import { TableProps } from "antd/es/table";
-import { Product } from "../api/services/product/product.type";
 import { EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import productService from "../api/services/product/product.service";
+import { useDispatch, useSelector } from "react-redux";
+import { Product } from "../types/api-services/product.type";
+import { RootState } from "../redux/store";
+import {
+  setProductLimit,
+  setProductSkip,
+} from "../redux/slices/queryParamsSlice";
 
 const ProductList: FC = () => {
   // ================= PACKAGE HOOKS =================
-  // -> LOCAL STATES
-  const [limit, setLimit] = useState<number>(10);
-  const [skip, setSkip] = useState<number>(0);
+  // -> REDUX STATE
+  const { limit, skip } = useSelector(
+    (state: RootState) => state.queryParams.product
+  );
+
+  // -> REDUX DISPATCH
+  const dispatch = useDispatch();
 
   // -> GET NAVIGATE FROM HOOK
   const navigate = useNavigate();
@@ -80,7 +90,7 @@ const ProductList: FC = () => {
       dataIndex: "dimensions",
       key: "dimensions",
       render: (dimensions) =>
-        `${dimensions.width} x ${dimensions.height} x ${dimensions.depth}`,
+        `${dimensions?.width} x ${dimensions?.height} x ${dimensions?.depth}`,
     },
     {
       title: "Warranty Information",
@@ -141,8 +151,8 @@ const ProductList: FC = () => {
           pageSize: limit,
           total: data?.total,
           onChange: (page, pageSize) => {
-            setSkip((page - 1) * pageSize);
-            setLimit(pageSize);
+            dispatch(setProductSkip((page - 1) * pageSize));
+            dispatch(setProductLimit(pageSize));
           },
         }}
         loading={isLoading || isFetching}
