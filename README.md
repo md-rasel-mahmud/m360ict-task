@@ -1,31 +1,54 @@
-# React + TypeScript + Vite
+# M360IT Task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React application using Typescript, React Router, Redux Toolkit, RTK Query, and Ant Design for managing and displaying product information.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Product List View:**
 
-## Expanding the ESLint configuration
+  - Fetches product data from an API endpoint (`https://dummyjson.com/products`) using RTK Query.
+  - Displays products in a paginated table using Ant Design's Table component.
+  - Includes a button to navigate to each product's detail view.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Product Detail View:**
 
-- Configure the top-level `parserOptions` property like this:
+  - Displays detailed information of a selected product fetched from (`https://dummyjson.com/products/:id`) using RTK Query.
+  - Custom design using CSS and Ant Design components.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Edit Product:**
+  - Implements a form using Ant Design's Form component to update product details.
+  - Fetches product details from (`https://dummyjson.com/products/:id`) using RTK Query.
+  - Supports dynamic addition and removal of reviews using Ant Design's Form.List.
+  - Includes a Select component populated from (`https://dummyjson.com/products/categories`) for category selection.
+  - Submits edited product data via PATCH request to (`https://dummyjson.com/products/:id`) and logs the output.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# m360ict-task
+## Installation and Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/md-rasel-mahmud/m360ict-task
+   cd m360ict-task
+   ```
+2. **Install Dependency:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the application:**
+
+   ```bash
+   npm start
+   ```
+
+4. **Open in your browser:**
+   Open http://localhost:3000 to view the project.
+
+## Technologies Used
+
+- **React:** JavaScript library for building user interfaces.
+- **Typescript:** TypeScript is a syntactic superset of JavaScript which adds static typing.
+- **React Router:** React Router, is your essential routing tool for building single-page applications (SPAs).
+- **Redux Toolkit:** State management library for React applications.
+- **RTK Query:** Data fetching and caching library built on Redux Toolkit.
+- **Ant Design:** Design system with React components for UI.

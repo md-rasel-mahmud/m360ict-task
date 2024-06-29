@@ -29,7 +29,7 @@ const ProductView = () => {
   const { Text } = Typography;
 
   return (
-    <div>
+    <>
       {/* Breadcrumb for navigating product page */}
       <Breadcrumb
         style={{ margin: "16px 0" }}
@@ -129,7 +129,7 @@ const ProductView = () => {
           )}
         />
       </Card>
-    </div>
+    </>
   );
 };
 
