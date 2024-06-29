@@ -1,11 +1,18 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import productService from "../api/services/product/product.service";
 import FormComponent from "../components/form/FormComponent";
 import { InputFieldsType } from "../types/components/InputFieldTypes";
+import { Col, Row, Skeleton, message } from "antd";
 
 const ProductEdit: React.FC = () => {
+  // ================= PACKAGE HOOKS =================
+  // -> GET PRODUCT ID FROM PARAM
   const { productId } = useParams<{ productId: string }>();
+  // -> GET TOAST MESSAGE DEPENDENCY
+  const [messageApi, contextHolder] = message.useMessage();
+  // -> GET NAVIGATE TO NAVIGATE ANOTHER PAGE
+  const navigate = useNavigate();
 
   // ================= RTK GET QUERIES =================
   // @GET PRODUCTS BY ID /products/:productId
@@ -25,19 +32,32 @@ const ProductEdit: React.FC = () => {
   const [updateProduct, { isLoading }] =
     productService.useUpdateProductMutation();
 
-  if (productLoading) return <div>Loading...</div>;
-
   // ================= FORM SUBMIT =================
   const formSubmit = async (values: object) => {
-    console.log("Received values:", values);
+    console.log("Product Updated Data:", values);
 
     try {
-      await updateProduct({
+      const updateResponse = await updateProduct({
         id: parseInt(productId ?? "0"),
         data: values,
       }).unwrap();
-      console.log("Product updated successfully");
+
+      if (updateResponse) {
+        // -> SHOW SUCCESS TOAST MESSAGE
+        messageApi.open({
+          type: "success",
+          content: "Product updated successfully",
+        });
+
+        // -> NAVIGATE TO PRODUCT LIST PAGE
+        navigate("/");
+      }
     } catch (error) {
+      messageApi.open({
+        type: "error",
+        content: `Failed to update the product: ${error}`,
+      });
+
       console.error("Failed to update the product: ", error);
     }
   };
@@ -128,7 +148,19 @@ const ProductEdit: React.FC = () => {
 
   return (
     <>
-      {product && (
+      {productLoading || categoriesLoading ? (
+        <>
+          <Row gutter={5}>
+            {Array(formData.length)
+              .fill({})
+              .map(() => (
+                <Col xs={12}>
+                  <Skeleton />
+                </Col>
+              ))}
+          </Row>
+        </>
+      ) : (
         <FormComponent
           isLoading={isLoading}
           title="Edit Product"
@@ -137,6 +169,9 @@ const ProductEdit: React.FC = () => {
           defaultValues={product}
         />
       )}
+
+      {/* TOAST MESSAGE DEPENDENCY */}
+      {contextHolder}
     </>
   );
 };
